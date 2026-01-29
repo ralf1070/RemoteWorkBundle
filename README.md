@@ -14,6 +14,7 @@ A Kimai plugin for tracking remote work days (homeoffice and business trips).
 - **Batch actions** - Approve or reject multiple entries at once
 - **Working time integration** - Remote work days are displayed in the working time overview with colored icons
 - **Statistics dashboard** - Overview of remote work days per type
+- **Excel export** - Export remote work entries per year and user
 
 ## Requirements
 

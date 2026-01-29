@@ -23,6 +23,12 @@ Plugin zur Erfassung von Remote-Arbeit (Homeoffice und Dienstreisen) in Kimai.
 - Status: Neu, Genehmigt, Abgelehnt
 - Batch-Aktionen für Genehmigung/Ablehnung
 
+### Excel-Export
+- Export-Button oben rechts (Page Actions)
+- Exportiert alle Einträge eines Jahres für einen Benutzer
+- Verwendet Kimai's `AnnotatedObjectExporter` mit Entity-Annotations
+- Route: `remote_work_export`
+
 ## Datenbankstruktur
 
 Tabelle: `kimai2_remote_work`
@@ -58,7 +64,8 @@ RemoteWorkBundle/
 │   └── RemoteWork.php                 # Doctrine Entity
 ├── EventSubscriber/
 │   ├── MenuSubscriber.php             # Menü-Integration
-│   ├── RemoteWorkActionSubscriber.php # Tabellen-Aktionen
+│   ├── RemoteWorkActionSubscriber.php # Tabellen-Aktionen (Zeilen)
+│   ├── RemoteWorkPageActionSubscriber.php # Seiten-Aktionen (Export)
 │   ├── SystemConfigurationSubscriber.php # Einstellungen
 │   ├── UserSubscriber.php             # Benutzer-Events
 │   └── WorkingTimeYearSubscriber.php  # Arbeitszeitübersicht
@@ -132,7 +139,26 @@ RemoteWorkBundle/
 
 ## Offene Punkte / TODOs
 
-- [ ] Excel-Export testen
+- [x] Excel-Export (via RemoteWorkPageActionSubscriber und AnnotatedObjectExporter)
 - [ ] Anzeige in Arbeitszeitübersicht (WorkingTimeYearSubscriber)
 - [ ] PDF-Report Integration
 - [ ] Tests schreiben
+
+## Technische Details
+
+### Page Actions vs Form Addon
+
+Kimai hat zwei verschiedene Action-Bereiche:
+
+1. **Page Actions** (`block page_actions` in base.html.twig)
+   - Oben rechts auf der Seite
+   - Konfiguriert via `PageSetup::setActionName()` und `setActionPayload()`
+   - Event wird automatisch dispatcht wenn `actionName` gesetzt ist
+   - Verwendet `widgets.page_actions()` Macro
+   - Beispiel: Export-Button
+
+2. **Form Addon** (`block form_addon` in page_setup.html.twig)
+   - Im Formular-Bereich (neben Datums-/User-Auswahl)
+   - Manuell im Template via `actions()` Twig-Funktion
+   - Verwendet `widgets.actions()` Macro
+   - Beispiel: Navigations-Links (Arbeitszeiten, Arbeitsvertrag)

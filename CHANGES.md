@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2026-01-29
+
+### Added
+- Excel export for remote work entries (per year/user)
+- Export button in page toolbar (top right)
+- `RemoteWorkPageActionSubscriber` for page-level actions
+
 ## [1.0.0] - 2026-01-29
 
 ### Added

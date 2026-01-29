@@ -52,7 +52,7 @@ final class RemoteWorkController extends AbstractController
     private function getPageSetup(): PageSetup
     {
         $page = new PageSetup('remote_work');
-        $page->setActionName('remote_work');
+        $page->setActionName('remote_work_page');
 
         return $page;
     }
