@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="de" datatype="plaintext" original="messages.en.xlf">
+        <body>
+            <!-- Types -->
+            <trans-unit id="homeoffice">
+                <source>homeoffice</source>
+                <target>Homeoffice</target>
+            </trans-unit>
+            <trans-unit id="business_trip">
+                <source>business_trip</source>
+                <target>Dienstreise</target>
+            </trans-unit>
+
+            <!-- Day labels -->
+            <trans-unit id="day_full">
+                <source>day_full</source>
+                <target>Ganzer Tag</target>
+            </trans-unit>
+            <trans-unit id="day_half">
+                <source>day_half</source>
+                <target>Halber Tag</target>
+            </trans-unit>
+
+            <!-- Intro texts -->
+            <trans-unit id="homeoffice.intro">
+                <source>homeoffice.intro</source>
+                <target>Homeoffice-Tage erfassen. Sie haben dieses Jahr %days% Homeoffice-Tage eingetragen.</target>
+            </trans-unit>
+            <trans-unit id="business_trip.intro">
+                <source>business_trip.intro</source>
+                <target>Dienstreise-Tage erfassen. Sie haben dieses Jahr %days% Dienstreise-Tage eingetragen.</target>
+            </trans-unit>
+
+            <!-- Buttons -->
+            <trans-unit id="homeoffice.button">
+                <source>homeoffice.button</source>
+                <target>Homeoffice eintragen</target>
+            </trans-unit>
+            <trans-unit id="business_trip.button">
+                <source>business_trip.button</source>
+                <target>Dienstreise eintragen</target>
+            </trans-unit>
+
+            <!-- Section title -->
+            <trans-unit id="remote_work">
+                <source>remote_work</source>
+                <target>Remote-Arbeit</target>
+            </trans-unit>
+
+            <!-- Statistics -->
+            <trans-unit id="remote_work.statistics">
+                <source>remote_work.statistics</source>
+                <target>Statistik</target>
+            </trans-unit>
+            <trans-unit id="remote_work.homeoffice_days">
+                <source>remote_work.homeoffice_days</source>
+                <target>Homeoffice-Tage</target>
+            </trans-unit>
+            <trans-unit id="remote_work.business_trip_days">
+                <source>remote_work.business_trip_days</source>
+                <target>Dienstreise-Tage</target>
+            </trans-unit>
+            <trans-unit id="remote_work.total_days">
+                <source>remote_work.total_days</source>
+                <target>Gesamt Tage</target>
+            </trans-unit>
+
+            <!-- Form labels -->
+            <trans-unit id="remote_work.start_date">
+                <source>remote_work.start_date</source>
+                <target>Startdatum</target>
+            </trans-unit>
+            <trans-unit id="remote_work.end_date">
+                <source>remote_work.end_date</source>
+                <target>Enddatum</target>
+            </trans-unit>
+            <trans-unit id="remote_work.start_time">
+                <source>remote_work.start_time</source>
+                <target>Startzeit</target>
+            </trans-unit>
+            <trans-unit id="remote_work.end_time">
+                <source>remote_work.end_time</source>
+                <target>Endzeit</target>
+            </trans-unit>
+
+            <!-- Status -->
+            <trans-unit id="status.new">
+                <source>status.new</source>
+                <target>Neu</target>
+            </trans-unit>
+            <trans-unit id="status.approved">
+                <source>status.approved</source>
+                <target>Genehmigt</target>
+            </trans-unit>
+            <trans-unit id="status.rejected">
+                <source>status.rejected</source>
+                <target>Abgelehnt</target>
+            </trans-unit>
+
+            <!-- Messages -->
+            <trans-unit id="remote_work.created">
+                <source>remote_work.created</source>
+                <target>Remote-Arbeit wurde erfolgreich eingetragen.</target>
+            </trans-unit>
+            <trans-unit id="remote_work.updated">
+                <source>remote_work.updated</source>
+                <target>Remote-Arbeit wurde erfolgreich aktualisiert.</target>
+            </trans-unit>
+            <trans-unit id="remote_work.deleted">
+                <source>remote_work.deleted</source>
+                <target>Remote-Arbeit wurde gelöscht.</target>
+            </trans-unit>
+            <trans-unit id="remote_work.approved">
+                <source>remote_work.approved</source>
+                <target>Remote-Arbeit wurde genehmigt.</target>
+            </trans-unit>
+            <trans-unit id="remote_work.rejected">
+                <source>remote_work.rejected</source>
+                <target>Remote-Arbeit wurde abgelehnt.</target>
+            </trans-unit>
+
+            <!-- Overlap warning -->
+            <trans-unit id="remote_work.overlap_warning">
+                <source>remote_work.overlap_warning</source>
+                <target>Achtung: An diesem Tag existiert bereits ein Eintrag (%type%: %date%).</target>
+            </trans-unit>
+            <trans-unit id="remote_work.ignore_warning">
+                <source>remote_work.ignore_warning</source>
+                <target>Warnung ignorieren und trotzdem speichern</target>
+            </trans-unit>
+            <trans-unit id="remote_work.and_more">
+                <source>remote_work.and_more</source>
+                <target>und %count% weitere</target>
+            </trans-unit>
+            <trans-unit id="remote_work.overlap_summary">
+                <source>remote_work.overlap_summary</source>
+                <target>Es existieren bereits Einträge an %count% Tag(en):</target>
+            </trans-unit>
+
+            <!-- Settings -->
+            <trans-unit id="remote_work.settings">
+                <source>remote_work.settings</source>
+                <target>Remote-Arbeit Einstellungen</target>
+            </trans-unit>
+            <trans-unit id="remote_work.approval_required">
+                <source>remote_work.approval_required</source>
+                <target>Genehmigung erforderlich</target>
+            </trans-unit>
+            <trans-unit id="remote_work.approval_required.help">
+                <source>remote_work.approval_required.help</source>
+                <target>Wenn aktiviert, müssen Remote-Arbeit-Einträge vom Vorgesetzten genehmigt werden.</target>
+            </trans-unit>
+
+            <!-- Overlap warnings -->
+            <trans-unit id="remote_work.overlap_with_absence">
+                <source>remote_work.overlap_with_absence</source>
+                <target>Achtung: An diesem Tag existiert bereits eine Abwesenheit (%type%: %date%).</target>
+            </trans-unit>
+            <trans-unit id="remote_work.overlap_with_holiday">
+                <source>remote_work.overlap_with_holiday</source>
+                <target>Achtung: Dieser Tag ist ein Feiertag (%date%).</target>
+            </trans-unit>
+
+            <!-- Validation errors -->
+            <trans-unit id="remote_work.error.missing_user">
+                <source>remote_work.error.missing_user</source>
+                <target>Der Benutzer ist erforderlich.</target>
+            </trans-unit>
+            <trans-unit id="remote_work.error.missing_start_time">
+                <source>remote_work.error.missing_start_time</source>
+                <target>Die Startzeit ist erforderlich.</target>
+            </trans-unit>
+            <trans-unit id="remote_work.error.end_before_start">
+                <source>remote_work.error.end_before_start</source>
+                <target>Die Endzeit muss nach der Startzeit liegen.</target>
+            </trans-unit>
+            <trans-unit id="remote_work.error.missing_end_time">
+                <source>remote_work.error.missing_end_time</source>
+                <target>Die Endzeit ist für Dienstreisen erforderlich.</target>
+            </trans-unit>
+            <trans-unit id="remote_work.error.date_locked">
+                <source>remote_work.error.date_locked</source>
+                <target>Das Datum ist gesperrt und kann nicht geändert werden.</target>
+            </trans-unit>
+            <trans-unit id="remote_work.error.first_day">
+                <source>remote_work.error.first_day</source>
+                <target>Das Datum liegt vor dem ersten Arbeitstag des Benutzers.</target>
+            </trans-unit>
+            <trans-unit id="remote_work.error.last_day">
+                <source>remote_work.error.last_day</source>
+                <target>Das Datum liegt nach dem letzten Arbeitstag des Benutzers.</target>
+            </trans-unit>
+            <trans-unit id="remote_work.error.mixed_years">
+                <source>remote_work.error.mixed_years</source>
+                <target>Remote-Arbeit-Einträge können nicht über mehrere Jahre gehen.</target>
+            </trans-unit>
+            <trans-unit id="remote_work.error.no_working_day">
+                <source>remote_work.error.no_working_day</source>
+                <target>Das gewählte Datum ist kein Arbeitstag.</target>
+            </trans-unit>
+            <trans-unit id="remote_work.error.no_working_days_in_range">
+                <source>remote_work.error.no_working_days_in_range</source>
+                <target>Keine Arbeitstage im gewählten Zeitraum gefunden.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -1,0 +1,77 @@
+{% extends kimai_context.modalRequest ? 'form.html.twig' : 'base.html.twig' %}
+
+{% block main %}
+    {% set formEditTemplate = kimai_context.modalRequest ? 'default/_form_modal.html.twig' : 'default/_form.html.twig' %}
+    {% set formOptions = {
+        'title': (entity.id is null ? 'create'|trans : 'edit'|trans) ~ ': ' ~ type.title|trans,
+        'form': form,
+        'back': path('remote_work'),
+        'overlaps': overlaps|default([])
+    } %}
+    {% embed formEditTemplate with formOptions %}
+        {% block form_body %}
+            {# Display form-level errors (from class constraints) #}
+            {% if form.vars.errors|length > 0 %}
+                <div class="alert alert-danger">
+                    {{ form_errors(form) }}
+                </div>
+            {% endif %}
+            {# Overlap warnings - using alert-danger so Kimai's JS keeps the modal open #}
+            {% if overlaps is defined and overlaps|length > 0 %}
+                <div class="alert alert-danger" style="display: block !important;">
+                    <div style="display: block; width: 100%; margin-bottom: 8px;"><strong>{{ 'remote_work.overlap_summary'|trans({'%count%': overlaps|length}) }}</strong></div>
+                    {% set maxShow = 3 %}
+                    {% for overlap in overlaps|slice(0, maxShow) %}
+                        <div style="display: block; padding-left: 10px;">{{ overlap.type|trans }}: {{ overlap.dateFormatted }}</div>
+                    {% endfor %}
+                    {% if overlaps|length > maxShow %}
+                        <div style="display: block; padding-left: 10px; color: #666;">... {{ 'remote_work.and_more'|trans({'%count%': overlaps|length - maxShow}) }}</div>
+                    {% endif %}
+                    <div class="form-check mt-2">
+                        <input type="checkbox" class="form-check-input" id="ignore_warning" name="ignore_warning" value="1">
+                        <label class="form-check-label" for="ignore_warning">
+                            {{ 'remote_work.ignore_warning'|trans }}
+                        </label>
+                    </div>
+                </div>
+            {% endif %}
+
+            {# Date fields #}
+            {% if form.date is defined or form.end is defined %}
+            <div class="row">
+                {% if form.date is defined %}
+                <div class="col">
+                    {{ form_row(form.date) }}
+                </div>
+                {% endif %}
+                {% if form.end is defined %}
+                <div class="col">
+                    {{ form_row(form.end) }}
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            {# Half day option #}
+            {% if form.halfDay is defined %}
+            <div class="row">
+                <div class="col">
+                    {{ form_row(form.halfDay) }}
+                </div>
+            </div>
+            {% endif %}
+
+            {# User field #}
+            {% if form.user is defined %}
+            <div class="row">
+                <div class="col">
+                    {{ form_row(form.user) }}
+                </div>
+            </div>
+            {% endif %}
+
+            {# Rest of the form (comment) #}
+            {{ form_rest(form) }}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

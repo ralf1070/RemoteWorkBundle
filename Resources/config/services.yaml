@@ -1,0 +1,28 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    KimaiPlugin\RemoteWorkBundle\:
+        resource: '../../*'
+        exclude:
+            - '../../Migrations/'
+            - '../../Model/'
+            - '../../Resources/'
+
+    KimaiPlugin\RemoteWorkBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+
+    KimaiPlugin\RemoteWorkBundle\Repository\RemoteWorkRepository:
+        class: KimaiPlugin\RemoteWorkBundle\Repository\RemoteWorkRepository
+        factory: ['@doctrine.orm.entity_manager', getRepository]
+        arguments: ['KimaiPlugin\RemoteWorkBundle\Entity\RemoteWork']
+
+    # OverlapValidator with optional WorkContractBundle dependencies
+    KimaiPlugin\RemoteWorkBundle\Validator\OverlapValidator:
+        arguments:
+            $remoteWorkRepository: '@KimaiPlugin\RemoteWorkBundle\Repository\RemoteWorkRepository'
+            $absenceRepository: '@?KimaiPlugin\WorkContractBundle\Repository\AbsenceRepository'
+            $publicHolidayRepository: '@?KimaiPlugin\WorkContractBundle\Repository\PublicHolidayRepository'

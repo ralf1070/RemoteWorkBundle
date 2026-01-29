@@ -1,0 +1,25 @@
+{
+    "name": "kimai/remote-work-bundle",
+    "description": "Remote Work plugin for Kimai - track homeoffice and business trips",
+    "type": "kimai-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "kimai",
+        "kimai-plugin",
+        "remote-work",
+        "homeoffice",
+        "business-trip"
+    ],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "KimaiPlugin\\RemoteWorkBundle\\": ""
+        }
+    },
+    "extra": {
+        "kimai": {
+            "require": 23200,
+            "name": "Remote Work"
+        }
+    }
+}
