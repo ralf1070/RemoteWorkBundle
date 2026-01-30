@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.4] - 2026-01-30
+
+### Changed
+- Use DayAddon type parameter for working time overview (Kimai 2.48)
+- Add CompilerPass to register custom icons (homeoffice, business-trip)
+- Add ThemeSubscriber for CSS injection (background colors)
+- Add half_day translation keys for proper i18n
+- Requires Kimai >= 2.48.0
+
 ## [1.0.3] - 2026-01-30
 
 ### Added

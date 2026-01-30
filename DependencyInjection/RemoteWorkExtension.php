@@ -33,6 +33,9 @@ class RemoteWorkExtension extends AbstractPluginExtension implements PrependExte
 
     public function prepend(ContainerBuilder $container): void
     {
+        // Icons are registered via IconsCompilerPass (prepend doesn't work
+        // because TablerExtension::prepend() runs before plugin prepends)
+
         $container->prependExtensionConfig('kimai', [
             'permissions' => [
                 'roles' => [

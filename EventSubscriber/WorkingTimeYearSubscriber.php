@@ -78,20 +78,16 @@ final class WorkingTimeYearSubscriber implements EventSubscriberInterface
             // We just show it as an informational addon
             // Duration = 0 means it doesn't affect the time calculation
 
-            $title = $entry->getType();
-            if ($entry->isHalfDay()) {
-                $title .= ' (½)';
-            }
+            // Title is translation key - use different keys for full/half day
+            $title = $entry->isHalfDay()
+                ? $entry->getType() . '.half_day'
+                : $entry->getType();
 
             // Add addon with duration 0 (doesn't affect calculation)
-            $addon = new DayAddon($title, 0, 0);
+            // Type determines icon and background color in working time overview
+            $type = $entry->isHomeoffice() ? 'homeoffice' : 'business-trip';
+            $addon = new DayAddon($title, 0, 0, $type);
             $addon->setBillable(true);
-
-            $color = $entry->isHomeoffice() ? Constants::COLOR_HOMEOFFICE : Constants::COLOR_BUSINESS_TRIP;
-            $addon->setAttribute('color', $color);
-
-            $icon = $entry->isHomeoffice() ? Constants::ICON_HOMEOFFICE : Constants::ICON_BUSINESS_TRIP;
-            $addon->setAttribute('icon', $icon);
 
             if ($entry->getComment() !== '') {
                 $addon->setAttribute('comment', $entry->getComment());

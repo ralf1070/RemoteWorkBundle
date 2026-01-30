@@ -20,15 +20,11 @@ A Kimai plugin for tracking remote work days (homeoffice and business trips).
 
 ## Requirements
 
-- Kimai >= 2.32.0
-- Kimai core with DayAddon attributes support (see below)
+- Kimai >= 2.48.0 (includes DayAddon type support)
 
-### Core Changes Required
-
-This plugin requires changes to Kimai core that add attribute support to `DayAddon`:
-
-**Repository:** https://github.com/ralf1070/kimai
-**Branch:** `feature/day-addon-attributes`
+For the optional `comment` attribute in working time tooltips, the `feature/day-addon-attributes` branch is required:
+- **Repository:** https://github.com/ralf1070/kimai
+- **Branch:** `feature/day-addon-attributes`
 
 ## Installation
 

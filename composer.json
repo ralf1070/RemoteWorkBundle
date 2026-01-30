@@ -2,7 +2,7 @@
     "name": "kimai/remote-work-bundle",
     "description": "Remote Work plugin for Kimai - track homeoffice and business trips",
     "type": "kimai-plugin",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "keywords": [
         "kimai",
         "kimai-plugin",
@@ -18,7 +18,7 @@
     },
     "extra": {
         "kimai": {
-            "require": 23200,
+            "require": 24800,
             "name": "Remote Work"
         }
     }

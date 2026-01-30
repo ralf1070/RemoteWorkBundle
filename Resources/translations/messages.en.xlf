@@ -7,9 +7,17 @@
                 <source>homeoffice</source>
                 <target>Working from home</target>
             </trans-unit>
+            <trans-unit id="homeoffice.half_day">
+                <source>homeoffice.half_day</source>
+                <target>Working from home (½)</target>
+            </trans-unit>
             <trans-unit id="business_trip">
                 <source>business_trip</source>
                 <target>Business Trip</target>
+            </trans-unit>
+            <trans-unit id="business_trip.half_day">
+                <source>business_trip.half_day</source>
+                <target>Business Trip (½)</target>
             </trans-unit>
 
             <!-- Day labels -->
