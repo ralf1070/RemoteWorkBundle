@@ -33,6 +33,7 @@ use KimaiPlugin\RemoteWorkBundle\Validator\OverlapValidator;
 use Pagerfanta\Adapter\ArrayAdapter;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -46,6 +47,9 @@ final class RemoteWorkController extends AbstractController
         private readonly RemoteWorkService $service,
         private readonly RemoteWorkConfiguration $configuration,
         private readonly OverlapValidator $overlapValidator,
+        private readonly RequestStack $requestStack,
+        private readonly \KimaiPlugin\RemoteWorkBundle\CalDav\IcalHelper $icalHelper,
+        private readonly \KimaiPlugin\RemoteWorkBundle\CalDav\CalDavConfiguration $calDavConfiguration,
     ) {
     }
 
@@ -169,6 +173,8 @@ final class RemoteWorkController extends AbstractController
             'dataTables' => $months,
             'create_date' => $createDate,
             'approval_required' => $this->configuration->isApprovalRequired(),
+            'caldav_enabled' => $this->calDavConfiguration->isEnabled(),
+            'caldav_host' => $this->calDavConfiguration->getDomain(),
         ]);
     }
 
@@ -452,6 +458,33 @@ final class RemoteWorkController extends AbstractController
         return $this->redirectToRoute('remote_work');
     }
 
+    #[Route(path: '/sync/{year}/{month}/{profile}', name: 'remote_work_sync', methods: ['POST'])]
+    #[IsGranted('view_own_remote_work')]
+    public function syncToCalendar(int $year, int $month, User $profile, Request $request): Response
+    {
+        $isOwn = $profile === $this->getUser();
+        if (!$isOwn && !$this->isGranted('view_other_remote_work')) {
+            throw $this->createAccessDeniedException('Cannot sync other user\'s remote work');
+        }
+
+        if (!$this->isCsrfTokenValid('remote_work.sync', $request->request->get('_token'))) {
+            $this->flashError('action.csrf.error');
+
+            return $this->redirectToRoute('remote_work', ['user' => $profile->getId(), 'date' => $year . '-01-01']);
+        }
+
+        $entries = $this->service->findByUserAndMonth($profile, $year, $month);
+        $synced = $this->service->syncToCalendarBatch($entries);
+
+        if ($synced > 0) {
+            $this->flashSuccess('remote_work.synced');
+        } else {
+            $this->flashWarning('remote_work.sync_nothing');
+        }
+
+        return $this->redirectToRoute('remote_work', ['user' => $profile->getId(), 'date' => $year . '-01-01']);
+    }
+
     #[Route(path: '/export/{year}/{profile}', name: 'remote_work_export', methods: ['GET'])]
     #[IsGranted('view_own_remote_work')]
     public function export(\DateTimeInterface $year, User $profile, AnnotatedObjectExporter $exporter): Response
@@ -466,11 +499,37 @@ final class RemoteWorkController extends AbstractController
 
         $spreadsheet = $exporter->export(RemoteWork::class, $entries);
 
-        $filename = \sprintf('%s-%s-remote-work', $profile->getAlias(), $year->format('Y'));
+        $filename = \sprintf('%s-%s-remote-work', $profile->getDisplayName(), $year->format('Y'));
         $filename = FileHelper::convertToAsciiFilename($filename);
 
         $writer = new BinaryFileResponseWriter(new XlsxWriter(), $filename);
 
         return $writer->getFileResponse($spreadsheet);
     }
+
+    #[Route(path: '/ical/{year}/{profile}', name: 'remote_work_ical', methods: ['GET'])]
+    #[IsGranted('view_own_remote_work')]
+    public function icalExport(\DateTimeInterface $year, User $profile): Response
+    {
+        $isOwn = $profile === $this->getUser();
+        if (!$isOwn && !$this->isGranted('view_other_remote_work')) {
+            throw $this->createAccessDeniedException('Cannot export other user\'s remote work');
+        }
+
+        $yearInt = (int) $year->format('Y');
+        $entries = $this->service->findByUserAndYear($profile, $yearInt);
+
+        $domain = $this->requestStack->getCurrentRequest()?->getHost() ?? 'kimai.local';
+        $ical = $this->icalHelper->generateCalendar($entries, $profile, $domain);
+
+        $filename = \sprintf('%s-%s-remote-work', $profile->getDisplayName(), $year->format('Y'));
+        $filename = FileHelper::convertToAsciiFilename($filename) . '.ics';
+
+        $response = new Response($ical);
+        $response->headers->set('Content-Type', 'text/calendar; charset=utf-8');
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+
+        return $response;
+    }
+
 }

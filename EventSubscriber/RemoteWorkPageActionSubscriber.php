@@ -39,5 +39,10 @@ final class RemoteWorkPageActionSubscriber extends AbstractActionsSubscriber
             'url' => $this->path('remote_work_export', ['year' => $year->format('Y-m-d'), 'profile' => $user->getId()]),
             'title' => 'export'
         ]);
+
+        $event->addAction('calendar', [
+            'url' => $this->path('remote_work_ical', ['year' => $year->format('Y-m-d'), 'profile' => $user->getId()]),
+            'title' => 'ical'
+        ]);
     }
 }

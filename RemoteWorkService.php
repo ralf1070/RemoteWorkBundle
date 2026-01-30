@@ -12,6 +12,7 @@ namespace KimaiPlugin\RemoteWorkBundle;
 use App\Entity\User;
 use App\Timesheet\DateTimeFactory;
 use App\WorkingTime\WorkingTimeService;
+use KimaiPlugin\RemoteWorkBundle\CalDav\CalDavService;
 use KimaiPlugin\RemoteWorkBundle\Entity\RemoteWork;
 use KimaiPlugin\RemoteWorkBundle\Model\RemoteWorkStatistic;
 use KimaiPlugin\RemoteWorkBundle\Repository\RemoteWorkRepository;
@@ -22,6 +23,7 @@ final class RemoteWorkService
         private readonly RemoteWorkRepository $repository,
         private readonly RemoteWorkConfiguration $configuration,
         private readonly WorkingTimeService $workingTimeService,
+        private readonly CalDavService $calDavService,
     ) {
     }
 
@@ -33,10 +35,12 @@ final class RemoteWorkService
     public function save(RemoteWork $remoteWork): void
     {
         $this->repository->save($remoteWork);
+        $this->syncToCalendar($remoteWork);
     }
 
     public function delete(RemoteWork $remoteWork): void
     {
+        $this->calDavService->deleteEvent($remoteWork);
         $this->repository->remove($remoteWork);
     }
 
@@ -72,10 +76,22 @@ final class RemoteWorkService
             $entry->setDate($day->setTime(0, 0, 0));
             $this->applyStatus($entry, $currentUser, $now);
             $this->repository->save($entry);
+            $this->syncToCalendar($entry);
             $entries[] = $entry;
         }
 
         return $entries;
+    }
+
+    /**
+     * Syncs a remote work entry to the calendar if it's approved (or approval not required).
+     */
+    private function syncToCalendar(RemoteWork $remoteWork): void
+    {
+        // Only sync approved entries, or all entries if approval is not required
+        if ($remoteWork->isApproved()) {
+            $this->calDavService->createOrUpdateEvent($remoteWork);
+        }
     }
 
     /**
@@ -164,6 +180,11 @@ final class RemoteWorkService
 
         if (\count($toSave) > 0) {
             $this->repository->batchSave($toSave);
+
+            // Sync approved entries to calendar
+            foreach ($toSave as $entry) {
+                $this->calDavService->createOrUpdateEvent($entry);
+            }
         }
     }
 
@@ -177,6 +198,10 @@ final class RemoteWorkService
         $toSave = [];
 
         foreach ($entries as $entry) {
+            // Delete from calendar if it was previously approved
+            if ($entry->isApproved()) {
+                $this->calDavService->deleteEvent($entry);
+            }
             $entry->reject();
             $toSave[] = $entry;
         }
@@ -193,6 +218,9 @@ final class RemoteWorkService
      */
     public function batchDelete(iterable $entries): void
     {
+        foreach ($entries as $entry) {
+            $this->calDavService->deleteEvent($entry);
+        }
         $this->repository->batchDelete($entries);
     }
 
@@ -214,5 +242,32 @@ final class RemoteWorkService
     public function findByUserAndDate(User $user, \DateTimeInterface $date): array
     {
         return $this->repository->findByUserAndDate($user, $date);
+    }
+
+    /**
+     * Returns entries for a specific user, year and month.
+     *
+     * @return array<RemoteWork>
+     */
+    public function findByUserAndMonth(User $user, int $year, int $month): array
+    {
+        return $this->repository->findByUserAndMonth($user, $year, $month);
+    }
+
+    /**
+     * Syncs multiple entries to calendar (only approved ones).
+     *
+     * @param array<RemoteWork> $entries
+     */
+    public function syncToCalendarBatch(array $entries): int
+    {
+        $synced = 0;
+        foreach ($entries as $entry) {
+            if ($entry->isApproved() && $this->calDavService->createOrUpdateEvent($entry)) {
+                $synced++;
+            }
+        }
+
+        return $synced;
     }
 }

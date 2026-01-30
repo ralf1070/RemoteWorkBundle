@@ -14,6 +14,8 @@ use App\Form\Model\Configuration;
 use App\Form\Model\SystemConfiguration;
 use App\Form\Type\YesNoType;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class SystemConfigurationSubscriber implements EventSubscriberInterface
 {
@@ -35,6 +37,32 @@ final class SystemConfigurationSubscriber implements EventSubscriberInterface
                         ->setType(YesNoType::class)
                         ->setOptions([
                             'help' => 'remote_work.approval_required.help',
+                        ]),
+                    (new Configuration('remote_work.caldav_enabled'))
+                        ->setLabel('remote_work.caldav_enabled')
+                        ->setType(YesNoType::class)
+                        ->setOptions([
+                            'help' => 'remote_work.caldav_enabled.help',
+                        ]),
+                    (new Configuration('remote_work.caldav_url'))
+                        ->setLabel('remote_work.caldav_url')
+                        ->setType(TextType::class)
+                        ->setOptions([
+                            'help' => 'remote_work.caldav_url.help',
+                            'required' => false,
+                        ]),
+                    (new Configuration('remote_work.caldav_username'))
+                        ->setLabel('remote_work.caldav_username')
+                        ->setType(TextType::class)
+                        ->setOptions([
+                            'required' => false,
+                        ]),
+                    (new Configuration('remote_work.caldav_password'))
+                        ->setLabel('remote_work.caldav_password')
+                        ->setType(PasswordType::class)
+                        ->setOptions([
+                            'required' => false,
+                            'always_empty' => false,
                         ]),
                 ])
         );

@@ -27,6 +27,18 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('approval_required')
                     ->defaultFalse()
                 ->end()
+                ->booleanNode('caldav_enabled')
+                    ->defaultFalse()
+                ->end()
+                ->scalarNode('caldav_url')
+                    ->defaultValue('')
+                ->end()
+                ->scalarNode('caldav_username')
+                    ->defaultValue('')
+                ->end()
+                ->scalarNode('caldav_password')
+                    ->defaultValue('')
+                ->end()
             ->end()
         ->end();
 

@@ -29,6 +29,63 @@ Plugin zur Erfassung von Remote-Arbeit (Homeoffice und Dienstreisen) in Kimai.
 - Verwendet Kimai's `AnnotatedObjectExporter` mit Entity-Annotations
 - Route: `remote_work_export`
 
+### iCal-Export
+- iCal-Button oben rechts (Page Actions)
+- Exportiert alle Einträge eines Jahres als .ics Datei
+- RFC 5545 konform
+- Route: `remote_work_ical`
+
+**iCal-Eigenschaften:**
+| Property | Wert |
+|----------|------|
+| UID | `remote-work-{user_id}-{YYYYMMDD}-{type}@{domain}` |
+| SEQUENCE | `current_timestamp / 10` (monoton steigend) |
+| DTSTAMP | Export-Zeitpunkt |
+| DTSTART/DTEND | Ganztägige Events |
+| SUMMARY | Übersetzter Typ + Kommentar (z.B. "Homeoffice: Projektarbeit") |
+| DESCRIPTION | Kommentar (falls vorhanden) |
+
+**Hinweise:**
+- Alle Texte werden übersetzt (DE: "Homeoffice", EN: "Working from home")
+- Bei halben Tagen: "(Halber Tag)" bzw. "(Half day)" im SUMMARY
+- Da die Entity kein `modifiedAt` Feld hat, wird bei jedem Export der aktuelle Timestamp verwendet
+
+### CalDAV-Synchronisation (optional)
+- Automatische Synchronisation mit Benutzer-Kalendern (z.B. Kopano, Nextcloud)
+- Konfigurierbar über Systemeinstellungen
+- Verwendet einen Service-Account für den Zugriff auf alle Benutzer-Kalender
+- Einträge werden in den persönlichen Kalender des jeweiligen Benutzers geschrieben
+
+**Konfiguration:**
+| Einstellung | Beschreibung |
+|-------------|--------------|
+| `caldav_enabled` | CalDAV-Sync aktivieren/deaktivieren |
+| `caldav_url` | CalDAV-URL mit `{username}` Platzhalter |
+| `caldav_username` | Service-Account Benutzername |
+| `caldav_password` | Service-Account Passwort |
+
+**Beispiel-URL:** `https://kopano.example.com:8443/caldav/{username}/Calendar/`
+
+**Sync-Verhalten:**
+- **Mit Genehmigungsworkflow:** Einträge werden erst nach Genehmigung synchronisiert
+- **Ohne Genehmigungsworkflow:** Einträge werden sofort synchronisiert (auto-approved)
+- **Bei Ablehnung:** Bereits synchronisierte Einträge werden aus dem Kalender entfernt
+- **Bei Löschung:** Einträge werden aus dem Kalender entfernt
+
+**Manueller Resync:**
+- Sync-Button (Icon) bei jedem Monat in der Übersicht
+- Synchronisiert alle genehmigten Einträge des Monats
+- Nützlich wenn CalDAV nachträglich aktiviert wurde
+- Route: `remote_work_sync`
+
+**Technische Details:**
+- Verwendet Symfony HttpClient für HTTP-Requests
+- PUT für Erstellen/Aktualisieren, DELETE für Löschen
+- iCal-Generierung über `IcalHelper` Service (gemeinsam mit iCal-Export)
+- Alle Texte (Homeoffice, Dienstreise, etc.) werden übersetzt
+- Kommentar wird in SUMMARY und DESCRIPTION aufgenommen
+- Fehler werden geloggt, blockieren aber nicht die Speicherung
+
 ## Datenbankstruktur
 
 Tabelle: `kimai2_remote_work`
@@ -55,6 +112,10 @@ RemoteWorkBundle/
 ├── RemoteWorkService.php              # Business-Logik
 ├── RemoteWorkTypeFactory.php          # Factory für Typen
 ├── composer.json                      # Composer-Konfiguration
+├── CalDav/
+│   ├── CalDavConfiguration.php        # CalDAV-Konfiguration
+│   ├── CalDavService.php              # CalDAV-Operationen (PUT/DELETE)
+│   └── IcalHelper.php                 # iCal-Generierung (gemeinsam genutzt)
 ├── Controller/
 │   └── RemoteWorkController.php       # CRUD-Controller
 ├── DependencyInjection/

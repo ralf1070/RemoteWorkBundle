@@ -5,7 +5,7 @@
             <!-- Types -->
             <trans-unit id="homeoffice">
                 <source>homeoffice</source>
-                <target>Home Office</target>
+                <target>Working from home</target>
             </trans-unit>
             <trans-unit id="business_trip">
                 <source>business_trip</source>
@@ -25,7 +25,7 @@
             <!-- Intro texts -->
             <trans-unit id="homeoffice.intro">
                 <source>homeoffice.intro</source>
-                <target>Record home office days. You have recorded %days% home office days this year.</target>
+                <target>Record work from home days. You have recorded %days% work from home days this year.</target>
             </trans-unit>
             <trans-unit id="business_trip.intro">
                 <source>business_trip.intro</source>
@@ -35,7 +35,7 @@
             <!-- Buttons -->
             <trans-unit id="homeoffice.button">
                 <source>homeoffice.button</source>
-                <target>Add home office</target>
+                <target>Add work from home</target>
             </trans-unit>
             <trans-unit id="business_trip.button">
                 <source>business_trip.button</source>
@@ -55,7 +55,7 @@
             </trans-unit>
             <trans-unit id="remote_work.homeoffice_days">
                 <source>remote_work.homeoffice_days</source>
-                <target>Home office days</target>
+                <target>Work from home days</target>
             </trans-unit>
             <trans-unit id="remote_work.business_trip_days">
                 <source>remote_work.business_trip_days</source>
@@ -152,6 +152,32 @@
                 <target>If enabled, remote work entries must be approved by a supervisor.</target>
             </trans-unit>
 
+            <!-- CalDAV Settings -->
+            <trans-unit id="remote_work.caldav_enabled">
+                <source>remote_work.caldav_enabled</source>
+                <target>CalDAV synchronization</target>
+            </trans-unit>
+            <trans-unit id="remote_work.caldav_enabled.help">
+                <source>remote_work.caldav_enabled.help</source>
+                <target>If enabled, remote work entries are automatically synchronized with the user's calendar.</target>
+            </trans-unit>
+            <trans-unit id="remote_work.caldav_url">
+                <source>remote_work.caldav_url</source>
+                <target>CalDAV URL</target>
+            </trans-unit>
+            <trans-unit id="remote_work.caldav_url.help">
+                <source>remote_work.caldav_url.help</source>
+                <target>URL to the CalDAV calendar. Use {username} as placeholder for the username. Example: https://server.com:8443/caldav/{username}/Calendar/</target>
+            </trans-unit>
+            <trans-unit id="remote_work.caldav_username">
+                <source>remote_work.caldav_username</source>
+                <target>CalDAV username</target>
+            </trans-unit>
+            <trans-unit id="remote_work.caldav_password">
+                <source>remote_work.caldav_password</source>
+                <target>CalDAV password</target>
+            </trans-unit>
+
             <!-- Overlap warnings -->
             <trans-unit id="remote_work.overlap_with_absence">
                 <source>remote_work.overlap_with_absence</source>
@@ -160,6 +186,26 @@
             <trans-unit id="remote_work.overlap_with_holiday">
                 <source>remote_work.overlap_with_holiday</source>
                 <target>Warning: This day is a public holiday (%date%).</target>
+            </trans-unit>
+
+            <!-- Export -->
+            <trans-unit id="ical">
+                <source>ical</source>
+                <target>iCal</target>
+            </trans-unit>
+
+            <!-- CalDAV Sync -->
+            <trans-unit id="remote_work.sync_calendar">
+                <source>remote_work.sync_calendar</source>
+                <target>Sync to calendar on %host%</target>
+            </trans-unit>
+            <trans-unit id="remote_work.synced">
+                <source>remote_work.synced</source>
+                <target>Entries have been synchronized with the calendar.</target>
+            </trans-unit>
+            <trans-unit id="remote_work.sync_nothing">
+                <source>remote_work.sync_nothing</source>
+                <target>No approved entries found to synchronize.</target>
             </trans-unit>
 
             <!-- Validation errors -->

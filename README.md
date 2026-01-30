@@ -15,6 +15,8 @@ A Kimai plugin for tracking remote work days (homeoffice and business trips).
 - **Working time integration** - Remote work days are displayed in the working time overview with colored icons
 - **Statistics dashboard** - Overview of remote work days per type
 - **Excel export** - Export remote work entries per year and user
+- **iCal export** - Import remote work days into calendar apps (Outlook, Google Calendar, etc.)
+- **CalDAV sync** - Automatic synchronization with user calendars (Kopano, Nextcloud, etc.)
 
 ## Requirements
 
@@ -51,6 +53,20 @@ This plugin requires changes to Kimai core that add attribute support to `DayAdd
 Navigate to **System > Settings > Remote Work** to configure:
 
 - **Approval required** - If enabled, remote work entries must be approved by a supervisor before they appear in the working time overview
+
+### CalDAV Sync (optional)
+
+Enable automatic synchronization of remote work entries to user calendars:
+
+- **CalDAV enabled** - Enable/disable calendar synchronization
+- **CalDAV URL** - URL template with `{username}` placeholder (e.g., `https://server.com:8443/caldav/{username}/Calendar/`)
+- **CalDAV username** - Service account username with access to all user calendars
+- **CalDAV password** - Service account password
+
+When enabled:
+- Approved entries are automatically synced to the user's calendar
+- A manual sync button appears per month for re-syncing existing entries
+- Rejected or deleted entries are removed from the calendar
 
 ## Permissions
 

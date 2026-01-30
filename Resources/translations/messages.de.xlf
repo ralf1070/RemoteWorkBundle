@@ -152,6 +152,32 @@
                 <target>Wenn aktiviert, müssen Remote-Arbeit-Einträge vom Vorgesetzten genehmigt werden.</target>
             </trans-unit>
 
+            <!-- CalDAV Settings -->
+            <trans-unit id="remote_work.caldav_enabled">
+                <source>remote_work.caldav_enabled</source>
+                <target>CalDAV-Synchronisation</target>
+            </trans-unit>
+            <trans-unit id="remote_work.caldav_enabled.help">
+                <source>remote_work.caldav_enabled.help</source>
+                <target>Wenn aktiviert, werden Remote-Arbeit-Einträge automatisch mit dem Kalender des Benutzers synchronisiert.</target>
+            </trans-unit>
+            <trans-unit id="remote_work.caldav_url">
+                <source>remote_work.caldav_url</source>
+                <target>CalDAV-URL</target>
+            </trans-unit>
+            <trans-unit id="remote_work.caldav_url.help">
+                <source>remote_work.caldav_url.help</source>
+                <target>URL zum CalDAV-Kalender. Verwenden Sie {username} als Platzhalter für den Benutzernamen. Beispiel: https://server.de:8443/caldav/{username}/Calendar/</target>
+            </trans-unit>
+            <trans-unit id="remote_work.caldav_username">
+                <source>remote_work.caldav_username</source>
+                <target>CalDAV-Benutzername</target>
+            </trans-unit>
+            <trans-unit id="remote_work.caldav_password">
+                <source>remote_work.caldav_password</source>
+                <target>CalDAV-Passwort</target>
+            </trans-unit>
+
             <!-- Overlap warnings -->
             <trans-unit id="remote_work.overlap_with_absence">
                 <source>remote_work.overlap_with_absence</source>
@@ -160,6 +186,26 @@
             <trans-unit id="remote_work.overlap_with_holiday">
                 <source>remote_work.overlap_with_holiday</source>
                 <target>Achtung: Dieser Tag ist ein Feiertag (%date%).</target>
+            </trans-unit>
+
+            <!-- Export -->
+            <trans-unit id="ical">
+                <source>ical</source>
+                <target>iCal</target>
+            </trans-unit>
+
+            <!-- CalDAV Sync -->
+            <trans-unit id="remote_work.sync_calendar">
+                <source>remote_work.sync_calendar</source>
+                <target>Mit Kalender auf %host% synchronisieren</target>
+            </trans-unit>
+            <trans-unit id="remote_work.synced">
+                <source>remote_work.synced</source>
+                <target>Einträge wurden mit dem Kalender synchronisiert.</target>
+            </trans-unit>
+            <trans-unit id="remote_work.sync_nothing">
+                <source>remote_work.sync_nothing</source>
+                <target>Keine genehmigten Einträge zum Synchronisieren gefunden.</target>
             </trans-unit>
 
             <!-- Validation errors -->

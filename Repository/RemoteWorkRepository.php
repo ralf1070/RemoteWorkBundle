@@ -144,6 +144,24 @@ class RemoteWorkRepository extends EntityRepository
     /**
      * @return array<RemoteWork>
      */
+    public function findByUserAndMonth(User $user, int $year, int $month): array
+    {
+        $qb = $this->createQueryBuilder('r');
+        $qb->select('r')
+            ->where($qb->expr()->eq('r.user', ':user'))
+            ->andWhere($qb->expr()->eq('YEAR(r.date)', ':year'))
+            ->andWhere($qb->expr()->eq('MONTH(r.date)', ':month'))
+            ->setParameter('user', $user->getId())
+            ->setParameter('year', $year)
+            ->setParameter('month', $month)
+            ->orderBy('r.date', 'DESC');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @return array<RemoteWork>
+     */
     public function findByUserYearAndType(User $user, int $year, string $type): array
     {
         $qb = $this->createQueryBuilder('r');
